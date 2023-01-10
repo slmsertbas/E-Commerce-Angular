@@ -10,10 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
 
         public IProductRepository _repo { get; }
@@ -25,13 +22,30 @@ namespace API.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult<List<Product>>> GetProducts() {
+        public async Task<ActionResult<List<Product>>> GetProducts([FromQuery]ProductParams productParams) {
 
-            var products = await  _repo.GetProductsAsync();
+            var products = await  _repo.GetProductsAsync(productParams);
 
             return Ok(products);
         }
 
+        [HttpGet("priceDesc")]
+
+        public async Task<ActionResult<List<Product>>> GetProductsOrderByPriceDesc() {
+
+            var products = await _repo.GetProductsOrderByPriceDesc();
+
+            return Ok(products);
+        }
+
+        [HttpGet("priceAsc")]
+
+        public async Task<ActionResult<List<Product>>> GetProductsOrderByPrice() {
+
+            var products = await _repo.GetProductsOrderByPrice();
+
+            return Ok(products);
+        }
         [HttpGet("{id}")]
 
         public async Task<ActionResult<Product>> GetProduct(int id) {
@@ -54,5 +68,31 @@ namespace API.Controllers
             
             return Ok(productBrands);
         }
+
+        
+        [HttpGet("typeId")]
+
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductsByTypeId(int typeId) {
+            var productList = await _repo.GetProductsByTypeId(typeId);
+            
+            return Ok(productList);
+        }
+
+        [HttpGet("brandId")]
+
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductsByBrandId(int brandId) {
+            var productList = await _repo.GetProductsByBrandId(brandId);
+            
+            return Ok(productList);
+        }
+
+        [HttpGet("name")]
+
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductsByName(string searchText) {
+            var retVal = await _repo.GetProductsByName(searchText);
+            
+            return Ok(retVal);
+        }
+
     }
 }

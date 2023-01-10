@@ -4,7 +4,9 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Linq.PredicateBuilder" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
+    <PackageReference Include="PredicateBuilder" Version="1.0.0" />
   </ItemGroup>
 
   <PropertyGroup>
